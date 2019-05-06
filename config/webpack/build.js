@@ -8,6 +8,7 @@ const baseConfig = require('./base');
 module.exports = {
   mode:'production',
   entry:baseConfig.entry,
+  // devtool:'source-map',
   output:{
     path:resolve('dist'),
     filename:'[name].js',
@@ -16,20 +17,7 @@ module.exports = {
   module:{
     rules:[
       ...baseConfig.module.rules,
-      {
-        test:/\.(less|css)$/,
-        use:ExtractTextWebpackPlugin.extract({
-          fallback:'style-loader',
-          use:[{
-            loader:'css-loader',
-            options:{
-              importLoaders:1,
-              modules:true,
-              localIdentName: '[name]__[local]___[hash:base64:5]'
-            }
-          },'less-loader']
-        })
-      }
+      ...getLessRules(baseConfig.lessRules)
     ]
   },
   plugins:[
@@ -40,3 +28,18 @@ module.exports = {
     })
   ]
 };
+
+
+function getLessRules(rules){
+  return rules.map(item => {
+    const {use = []} = item;
+    return {
+      ...item,
+      test:/\.(less|css)$/,
+      use:ExtractTextWebpackPlugin.extract({
+        fallback:'style-loader',
+        use:use.slice(1)
+      })
+    }
+  })
+}

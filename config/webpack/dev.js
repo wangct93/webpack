@@ -3,6 +3,7 @@
 const path = require('path');
 const resolve = (...paths) => path.resolve(process.cwd(),...paths);
 const baseConfig = require('./base');
+const webpack = require('webpack');
 
 module.exports = {
   mode:'development',
@@ -11,24 +12,18 @@ module.exports = {
     filename:'[name].js',
     publicPath: '/'
   },
+  devtool:'cheap-module-eval-source-map',
   module:{
     rules:[
       ...baseConfig.module.rules,
-      {
-        test:/\.(less|css)$/,
-        use:['style-loader',{
-          loader:'css-loader',
-          options:{
-            importLoaders:1,
-            modules:true,
-            localIdentName: '[name]__[local]___[hash:base64:5]'
-          }
-        },'less-loader']
-      }
+      ...baseConfig.lessRules
     ]
   },
   plugins:[
-    ...baseConfig.plugins
+    ...baseConfig.plugins,
+    new webpack.HotModuleReplacementPlugin({
+
+    })
   ],
   devServer:{
     contentBase:resolve('public'),
