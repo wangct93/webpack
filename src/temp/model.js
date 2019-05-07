@@ -1,0 +1,1 @@
+import global_1557221533930 from '../models/global.js'; export default [global_1557221533930];
