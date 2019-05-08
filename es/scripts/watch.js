@@ -4,18 +4,34 @@
 
 const fs = require('fs');
 const path = require('path');
-const resolve = (...dir) => path.resolve(process.cwd(),...dir);
+const resolveApp = (...dir) => path.resolve(process.cwd(),...dir);
 const Babel = require('wangct-babel');
 const util = require('wangct-server-util');
 const {arrayUtil} = util;
 
-const modelDirname = 'src/models';
-const configDirname = 'src/config';
-const pageDirname = 'src/pages';
-const modeOutputPath = 'src/temp/models.js';
-const componentConfigPath = 'src/components/config.js';
-const routerOutputPath = 'src/temp/routes.js';
-const componentOutput = 'src/components/index.js';
+const resolve = (...dir) => path.resolve(__dirname,'../..',...dir);
+
+
+const isSelf = process.env.isDvaSelf && process.env.isDvaSelf.trim() === '1';
+const libSrcDirname = isSelf ? 'esSrc' : 'lib/src';
+
+const modelDirname = resolveApp('src/models');
+const configDirname = resolveApp('config');
+const pageDirname = resolveApp('src/pages');
+const modelOutputPath = resolve(libSrcDirname,'config/models.js');
+const componentConfigPath = resolveApp('src/components/config.js');
+const routerOutputPath = resolve(libSrcDirname,'config/routes.js');
+const componentOutput = resolveApp('src/components/index.js');
+const tempDirname = resolve('temp');
+
+util.mkdir(modelDirname);
+util.mkdir(configDirname);
+util.mkdir(pageDirname);
+util.mkdir(modelOutputPath);
+util.mkdir(componentConfigPath);
+util.mkdir(routerOutputPath);
+util.mkdir(componentOutput);
+util.mkdir(tempDirname);
 
 const options = [
   {
@@ -40,18 +56,16 @@ options.forEach(opt => {
 
 
 function updateModel(cb){
-  const outModelPath = resolve(modeOutputPath);
   const time = +new Date();
   console.log('开始生成 model');
-  const modelDirPath = resolve(modelDirname);
-  fs.readdir(modelDirPath,(err,data) => {
+  fs.readdir(modelDirname,(err,data) => {
     if(err){
       console.log(err);
     }else{
       let importAry = [];
       let modelNameAry = data.map(item => {
-        let filePath = resolve(modelDirPath,item);
-        let relativePath = path.relative(path.resolve(outModelPath,'..'),filePath).replace(/\\/g,'/');
+        let filePath = resolve(modelDirname,item);
+        let relativePath = path.relative(path.resolve(modelOutputPath,'..'),filePath).replace(/\\/g,'/');
         let fileName = path.basename(item,path.extname(item)) + '_' + +new Date();
         if(relativePath.charAt(0) !== '.'){
           relativePath = './' + relativePath;
@@ -60,12 +74,12 @@ function updateModel(cb){
         return fileName;
       });
       let content = `${importAry.join('')} export default [${modelNameAry.join(',')}];`;
-      util.mkdir(outModelPath);
-      fs.writeFile(outModelPath,content,function(err){
+      util.mkdir(modelOutputPath);
+      fs.writeFile(modelOutputPath,content,function(err){
         if(err){
           console.log(err);
         }else{
-          console.log(`成功生成 model ：${outModelPath} 用时：${+new Date() - time}ms`);
+          console.log(`成功生成 model ：${modelOutputPath} 用时：${+new Date() - time}ms`);
           if(typeof cb === 'function'){
             cb();
           }
@@ -78,30 +92,10 @@ function updateModel(cb){
 function updateRouter(cb){
   const time = +new Date();
   console.log('开始生成 router');
-  babelConfig(() => {
-    const config = require(resolve('temp/src/config/config')).default;
-    const outputFilePath = resolve(routerOutputPath);
-    const content = getRouterContent({
-      ...config,
-      output:outputFilePath,
-    });
-    util.mkdir(outputFilePath);
-    fs.writeFile(outputFilePath,content,(err) => {
-      if(err){
-        console.log(err);
-      }else{
-        console.log(`成功生成 router ：${outputFilePath} 用时：${+new Date() - time}ms`);
-        util.callFunc(cb);
-      }
-    });
-  })
-}
 
-
-function babelConfig(cb){
-  const output = resolve('temp/src/config');
+  const output = resolve(tempDirname,'config');
   new Babel({
-    src:'src/config',
+    src:configDirname,
     output,
     success(){
       Object.keys(require.cache).forEach(key => {
@@ -109,7 +103,21 @@ function babelConfig(cb){
           delete require.cache[key];
         }
       });
-      cb();
+
+      const config = require(resolve(output,'config')).default;
+      const content = getRouterContent({
+        ...config,
+        output:routerOutputPath,
+      });
+      util.mkdir(routerOutputPath);
+      fs.writeFile(routerOutputPath,content,(err) => {
+        if(err){
+          console.log(err);
+        }else{
+          console.log(`成功生成 router ：${routerOutputPath} 用时：${+new Date() - time}ms`);
+          util.callFunc(cb);
+        }
+      });
     }
   });
 }
@@ -151,7 +159,7 @@ function getRouterContent(option){
 function updateComponent(){
   console.log('开始生成 components/index.js');
   const time = +new Date();
-  const output = resolve('temp',componentConfigPath);
+  const output = resolve(tempDirname,'components/config.js');
   util.mkdir(output);
   new Babel({
     src:componentConfigPath,
