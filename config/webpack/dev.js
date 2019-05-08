@@ -28,6 +28,13 @@ module.exports = {
   devServer:{
     contentBase:resolve('public'),
     port:3030,
-    hot:true
+    hot:true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:9092',
+      }
+    },
+    historyApiFallback: true,
+    host:'0.0.0.0'
   }
 };

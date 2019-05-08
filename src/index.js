@@ -1,8 +1,9 @@
-import {Text} from 'wangct-react';
-import {Button} from 'antd';
+import React from 'react';
+import {render} from 'react-dom';
+import App from './temp/app';
 
-import css from './index.less';
 
-console.log(css);
+render(<App />,document.getElementById('root'));
 
-console.log(Text,Button);
+
+

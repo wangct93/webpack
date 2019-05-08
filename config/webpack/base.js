@@ -59,6 +59,7 @@ module.exports = {
             options:{
               presets: ['@babel/preset-react','@babel/preset-env'],
               plugins:[
+                '@babel/plugin-transform-runtime',
                 ['import', {
                   libraryName: 'antd',
                   style: true
@@ -68,11 +69,20 @@ module.exports = {
                   customName(name){
                     return `wangct-react/lib/${name}`
                   }
-                },'wct']
+                },'wct'],
+                ['@babel/plugin-proposal-decorators',{legacy:true}],
+                '@babel/plugin-proposal-class-properties'
               ]
             }
           }
-        ]
+        ],
+        exclude:resolve('node_modules')
+      },
+      {
+        test: /\.(ts|js)x?$/,
+        enforce:'pre',
+        use:'eslint-loader',
+        exclude:resolve('node_modules')
       },
       {
         test:/\.(gif|jpg|jpeg|png|svg)$/,
