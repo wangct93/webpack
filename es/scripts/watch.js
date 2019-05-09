@@ -11,24 +11,24 @@ const {arrayUtil} = util;
 
 const resolve = (...dir) => path.resolve(__dirname,'../..',...dir);
 
+const defineConfig = require('../config/defineConfig');
 
-const isSelf = process.env.isDvaSelf && process.env.isDvaSelf.trim() === '1';
-const libSrcDirname = isSelf ? 'esSrc' : 'lib/src';
+const libDirname = defineConfig.isSelf ? 'es' : 'lib';
 
 const modelDirname = resolveApp('src/models');
 const configDirname = resolveApp('config');
 const pageDirname = resolveApp('src/pages');
-const modelOutputPath = resolve(libSrcDirname,'config/models.js');
 const componentConfigPath = resolveApp('src/components/config.js');
-const routerOutputPath = resolve(libSrcDirname,'config/routes.js');
+
+
+const modelOutputPath = resolve(libDirname,'src/config/models.js');
+const routerOutputPath = resolve(libDirname,'src/config/routes.js');
 const componentOutput = resolveApp('src/components/index.js');
 const tempDirname = resolve('temp');
 
-util.mkdir(modelDirname);
-util.mkdir(configDirname);
-util.mkdir(pageDirname);
+
+
 util.mkdir(modelOutputPath);
-util.mkdir(componentConfigPath);
 util.mkdir(routerOutputPath);
 util.mkdir(componentOutput);
 util.mkdir(tempDirname);
@@ -36,11 +36,18 @@ util.mkdir(tempDirname);
 const options = [
   {
     src:modelDirname,
-    callback:updateModel
+    callback:updateModel,
+    error(){
+      fs.writeFileSync(modelOutputPath,`export default []`);
+    }
   },
   {
     src:configDirname,
-    callback:updateRouter
+    callback:updateRouter,
+    error(){
+      fs.writeFileSync(routerOutputPath,`export default []`);
+      fs.writeFileSync(resolve(routerOutputPath,'../config.js'),'export default {}');
+    }
   },
   {
     src:componentConfigPath,
@@ -50,7 +57,13 @@ const options = [
 
 
 options.forEach(opt => {
-  util.watch(opt);
+  fs.stat(opt.src,(err) => {
+    if(err){
+      util.callFunc(opt.error);
+    }else{
+      util.watch(opt);
+    }
+  });
 });
 
 
@@ -93,33 +106,63 @@ function updateRouter(cb){
   const time = +new Date();
   console.log('开始生成 router');
 
-  const output = resolve(tempDirname,'config');
-  new Babel({
-    src:configDirname,
-    output,
-    success(){
-      Object.keys(require.cache).forEach(key => {
-        if(key.includes(output)){
-          delete require.cache[key];
-        }
-      });
 
-      const config = require(resolve(output,'config')).default;
-      const content = getRouterContent({
-        ...config,
-        output:routerOutputPath,
-      });
-      util.mkdir(routerOutputPath);
-      fs.writeFile(routerOutputPath,content,(err) => {
-        if(err){
-          console.log(err);
-        }else{
-          console.log(`成功生成 router ：${routerOutputPath} 用时：${+new Date() - time}ms`);
-          util.callFunc(cb);
-        }
-      });
+  Object.keys(require.cache).forEach(key => {
+    if(key.includes(configDirname)){
+      delete require.cache[key];
     }
   });
+  const config = require(resolve(configDirname,'config'));
+  const content = getRouterContent({
+    ...config,
+    output:routerOutputPath,
+  });
+  util.mkdir(routerOutputPath);
+  fs.writeFile(routerOutputPath,content,(err) => {
+    if(err){
+      console.log(err);
+    }else{
+      console.log(`成功生成 router ：${routerOutputPath} 用时：${+new Date() - time}ms`);
+      util.callFunc(cb);
+    }
+  });
+
+  const configOutputPath = resolve(routerOutputPath,'..','config.js');
+  fs.writeFile(configOutputPath,'export default ' + JSON.stringify(config),(err) => {
+    if(err){
+      console.log(err);
+    }else{
+      console.log(`成功生成 config ：${configOutputPath} 用时：${+new Date() - time}ms`);
+    }
+  })
+
+
+  // new Babel({
+  //   src:configDirname,
+  //   output,
+  //   success(){
+  //     Object.keys(require.cache).forEach(key => {
+  //       if(key.includes(output)){
+  //         delete require.cache[key];
+  //       }
+  //     });
+  //
+  //     const config = require(resolve(output,'config')).default;
+  //     const content = getRouterContent({
+  //       ...config,
+  //       output:routerOutputPath,
+  //     });
+  //     util.mkdir(routerOutputPath);
+  //     fs.writeFile(routerOutputPath,content,(err) => {
+  //       if(err){
+  //         console.log(err);
+  //       }else{
+  //         console.log(`成功生成 router ：${routerOutputPath} 用时：${+new Date() - time}ms`);
+  //         util.callFunc(cb);
+  //       }
+  //     });
+  //   }
+  // });
 }
 
 
@@ -196,3 +239,10 @@ function updateComponent(){
     }
   });
 }
+
+process.on('uncaughtException',err => {
+  console.log(err);
+});
+process.on('unhandledRejection',(err,promise) => {
+  console.log('error:',err);
+});

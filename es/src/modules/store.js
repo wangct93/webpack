@@ -72,7 +72,7 @@ export function getStore(models){
 
   function formatType(type = '',namespace){
     const [typespace,funcField] = type.split('/');
-    return funcField ? type : namespace + typespace
+    return funcField ? type : namespace + '/' + typespace
   }
 
   return store;

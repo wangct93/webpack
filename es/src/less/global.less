@@ -38,11 +38,6 @@ canvas{
         .full()
     }
 
-    .no-select{
-        user-select: none;
-      cursor: col-resize;
-    }
-
     .fixed-width {
         width: 1200px;
         margin: 0 auto;
@@ -109,28 +104,6 @@ canvas{
     .wct-flex {
         flex: 1;
         overflow: hidden;
-    }
-
-    .text-click {
-        cursor: pointer;
-        color: @fontColor;
-
-        &:hover {
-            color: @activeColor;
-        }
-    }
-
-    .afc-horizontal-tabs{
-        .ant-tabs{
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            width: 100%;
-            .ant-tabs-content{
-                height: 0;
-                flex:1;
-            }
-        }
     }
 }
 

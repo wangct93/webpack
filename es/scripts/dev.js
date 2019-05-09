@@ -5,6 +5,6 @@ const resolve = (...paths) => path.resolve(__dirname,'../..',...paths);
 
 require('./watch');
 
-spawn('webpack-dev-server.cmd',['--config',resolve('lib/config/dev')],{
+module.exports = spawn('webpack-dev-server.cmd',['--config',resolve(__dirname,'../config/dev')],{
   stdio:'inherit'
 });

@@ -1,12 +1,17 @@
 
 
-const {fork} = require('child_process');
 const path = require('path');
 const scriptType = process.argv[2] || 'dev';
+
+let cp;
+
 switch (scriptType) {
   case 'dev':
   case 'build':
-    fork(path.resolve(__dirname,scriptType));
+    cp = require(path.resolve(__dirname,scriptType));
     break;
 }
 
+process.on('exit',() => {
+  cp.kill('close');
+})

@@ -4,6 +4,8 @@ const path = require('path');
 const resolve = (...paths) => path.resolve(process.cwd(),...paths);
 const baseConfig = require('./base');
 const webpack = require('webpack');
+const defineConfig = require('./defineConfig');
+
 
 module.exports = {
   mode:'development',
@@ -21,21 +23,17 @@ module.exports = {
   },
   plugins:[
     ...baseConfig.plugins,
-    new webpack.HotModuleReplacementPlugin({
-
-    })
+    new webpack.HotModuleReplacementPlugin(),
+    ...(defineConfig.plugins || [])
   ],
   devServer:{
     contentBase:resolve('public'),
-    port:3030,
+    port:8888,
     hot:true,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:9092',
-      }
-    },
     historyApiFallback: true,
-    host:'0.0.0.0',
+    proxy:defineConfig.proxy,
+    ...defineConfig.devServer
+    // host:'0.0.0.0',
     // open:true
   }
 };

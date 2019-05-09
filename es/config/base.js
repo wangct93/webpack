@@ -8,9 +8,9 @@ const noCssModulesPaths = [
   resolve('node_modules/wangct-react')
 ];
 
-const isSelf = process.env.isDvaSelf && process.env.isDvaSelf.trim() === '1';
+const defineConfig = require('./defineConfig');
 
-const indexPath = isSelf ? resolve('es/src/index') : resolve(__dirname,'../src/index');
+const indexPath = defineConfig.isSelf ? resolve('es/src/index') : resolve(__dirname,'../src/index');
 
 module.exports = {
   entry:{
@@ -104,7 +104,7 @@ module.exports = {
   },
   plugins:[
     new HtmlWebpackPlugin({
-      template:resolve('public/index.html')
+      template:defineConfig.html || resolve(__dirname,'../../public/index.html')
     })
   ]
 };

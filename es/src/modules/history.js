@@ -1,7 +1,6 @@
-import {createBrowserHistory} from 'history';
+import {createBrowserHistory,createHashHistory} from 'history';
 import {reactUtil} from 'wangct-util';
-const history = createBrowserHistory();
-
+import config from '../config/config';
+const history = config.history === 'hash' ?  createHashHistory() : createBrowserHistory();
 reactUtil.setHistory(history);
-
 export default history;

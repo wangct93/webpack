@@ -1,6 +1,6 @@
 
 import React,{PureComponent} from 'react';
-import {Switch,Router,Route,Redirect} from 'react-router-dom';
+import {Switch,Router,Route} from 'react-router-dom';
 import path from 'path';
 import history from './history';
 import routes from '../config/routes';
@@ -14,7 +14,6 @@ export default class RootRouter extends PureComponent{
     </Router>
   }
 }
-
 function getRoutes(routes,indexPath){
   return <Switch>
     {
@@ -38,7 +37,7 @@ function getRoutes(routes,indexPath){
       })
     }
     {
-      indexPath ? <Redirect key="redirectRoute" to={indexPath}/> : ''
+      indexPath ? <Route render={() => history.push(indexPath)} exact key="redirectRoute" path="/" /> : ''
     }
   </Switch>
 }
