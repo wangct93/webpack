@@ -4,20 +4,21 @@ const resolve = (...paths) => path.resolve(process.cwd(),...paths);
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin/dist/clean-webpack-plugin');
 const baseConfig = require('./base');
+const defineConfig = require('./defineConfig');
+const {getCssRules} = require('./util');
 
 module.exports = {
+  ...baseConfig,
   mode:'production',
-  entry:baseConfig.entry,
-  // devtool:'source-map',
   output:{
-    path:resolve('dist'),
+    path:defineConfig.outputPath || resolve('dist'),
     filename:'[name].js',
-    publicPath: '/'
+    publicPath: defineConfig.publicPath || '/'
   },
   module:{
     rules:[
       ...baseConfig.module.rules,
-      ...getLessRules(baseConfig.lessRules)
+      ...getCssRules({build:true})
     ]
   },
   plugins:[

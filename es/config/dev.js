@@ -5,20 +5,20 @@ const resolve = (...paths) => path.resolve(process.cwd(),...paths);
 const baseConfig = require('./base');
 const webpack = require('webpack');
 const defineConfig = require('./defineConfig');
-
+const {getCssRules} = require('./util');
 
 module.exports = {
+  ...baseConfig,
   mode:'development',
-  entry:baseConfig.entry,
   output:{
     filename:'[name].js',
     publicPath: '/'
   },
-  devtool:'cheap-module-eval-source-map',
+  devtool:baseConfig.devtool || 'cheap-module-eval-source-map',
   module:{
     rules:[
       ...baseConfig.module.rules,
-      ...baseConfig.lessRules
+      ...getCssRules()
     ]
   },
   plugins:[
@@ -31,9 +31,10 @@ module.exports = {
     port:8888,
     hot:true,
     historyApiFallback: true,
-    proxy:defineConfig.proxy,
+    host:'0.0.0.0',
+    useLocalIp:true,
     ...defineConfig.devServer
-    // host:'0.0.0.0',
+
     // open:true
   }
 };

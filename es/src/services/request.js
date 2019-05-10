@@ -14,7 +14,10 @@ export default function request(url, options = {}) {
   return fetch(url, newOptions)
     .then(checkStatus)
     .then(parseJSON)
-    .catch(() => ({status:0,message:'连接服务器失败！'}));
+    .catch(() => ({status:0,message:'连接服务器失败！'}))
+    .then(json => {
+      return json.status ? Promise.resolve(json) : Promise.reject(json);
+    });
 }
 
 

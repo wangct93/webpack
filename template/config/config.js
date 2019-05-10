@@ -7,7 +7,9 @@ module.exports = {
     }
   ],
   devServer:{
-    port:3212
-  },
-  isSelf:true
+    port:8888,
+    proxy:{
+      '/api/':'http://localhost:9999'
+    }
+  }
 };

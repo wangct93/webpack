@@ -10,8 +10,8 @@ const history = reactUtil.getHistory();
 const {getProps} = reactUtil;
 export default class Home extends PureComponent {
   render() {
-    return <div className={css.container} onClick={() => history.push('/f')}>
-ffa{this.props.children}
+    return <div className={css.container}>
+      测试页面hello world！
     </div>
   }
 }

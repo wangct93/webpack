@@ -2,66 +2,31 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const resolve = (...paths) => path.resolve(process.cwd(),...paths);
-
-const noCssModulesPaths = [
-  resolve('node_modules/antd'),
-  resolve('node_modules/wangct-react')
-];
+const resolveDva = (...paths) => path.resolve(__dirname,'../..',...paths);
 
 const defineConfig = require('./defineConfig');
 
-const indexPath = defineConfig.isSelf ? resolve('es/src/index') : resolve(__dirname,'../src/index');
+const indexPath = resolveDva(defineConfig.isSelf ? 'es' : 'lib','src/index');
 
 module.exports = {
   entry:{
-    index:[indexPath,resolve('src/index')]
+    index:[indexPath].concat(defineConfig.entry).filter(item => !!item)
   },
-  lessRules:[
-    {
-      test: /\.(less|css)$/,
-      use: ['style-loader',
-        {
-          loader: 'css-loader',
-          options: {
-            importLoaders: 1,
-            modules: true,
-            localIdentName: '[name]__[local]___[hash:base64:5]'
-          }
-        },
-        {
-          loader: 'less-loader',
-          options: {
-            javascriptEnabled: true
-          }
-        }
-      ],
-      exclude:noCssModulesPaths
-    },
-    {
-      test: /\.(less|css)$/,
-      use: ['style-loader', 'css-loader',
-        {
-          loader: 'less-loader',
-          options: {
-            javascriptEnabled: true
-          }
-        }
-      ],
-      include:noCssModulesPaths
-    }
-  ],
-  noCssModulesPaths:[
-    resolve('node_modules/antd')
-  ],
+  externals:defineConfig.externals,
+  resolve:{
+    alias:defineConfig.alias,
+    extensions:defineConfig.extraResolveExtensions
+  },
+  devtool:defineConfig.devtool,
   module:{
     rules:[
       {
-        test: /\.(ts|js)x?$/,
+        test: /\.jsx?$/,
         use: [
           {
             loader:'babel-loader',
             options:{
-              presets: ['@babel/preset-react','@babel/preset-env'],
+              presets: ['@babel/preset-react','@babel/preset-env',...(defineConfig.extraBabelPresets || [])],
               plugins:[
                 '@babel/plugin-transform-runtime',
                 ['import', {
@@ -75,7 +40,9 @@ module.exports = {
                   }
                 },'wct'],
                 ['@babel/plugin-proposal-decorators',{legacy:true}],
-                '@babel/plugin-proposal-class-properties'
+                '@babel/plugin-proposal-class-properties',
+                '@babel/plugin-proposal-export-default-from',
+                ...(defineConfig.extraBabelPlugins || [])
               ]
             }
           }
@@ -99,12 +66,13 @@ module.exports = {
             }
           }
         ]
-      }
+      },
+      ...(defineConfig.rules || [])
     ]
   },
   plugins:[
-    new HtmlWebpackPlugin({
-      template:defineConfig.html || resolve(__dirname,'../../public/index.html')
+    new HtmlWebpackPlugin(defineConfig.html || {
+      template:resolve(__dirname,'../public/index.html')
     })
   ]
 };

@@ -1,13 +1,13 @@
 {
   "name": "wangct-dva",
-  "version": "1.0.13",
+  "version": "1.0.15",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "set isDvaSelf=1 && node es/scripts",
-    "build": "set isDvaSelf=1 && node es/scripts build",
+    "start": "node es/scripts",
+    "build": "node es/scripts build",
     "publish": "npm publish --registry https://registry.npmjs.org/",
-    "babel": "node server/test/babel"
+    "babel": "node test/babel"
   },
   "bin": {
     "wangct-dva": "./bin/dva.js"
@@ -62,7 +62,7 @@
   "files": [
     "bin",
     "lib",
-    "public"
+    "template"
   ],
   "keywords": [
     "wangct-dva"
