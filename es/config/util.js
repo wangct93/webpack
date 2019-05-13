@@ -9,7 +9,8 @@ const resolveRoot = (...paths) => path.resolve(process.cwd(),...paths);
 module.exports = {
   getCssRules,
   resolve,
-  resolveRoot
+  resolveRoot,
+  getJsRule
 };
 
 function getCssRules(opt){
@@ -19,6 +20,10 @@ function getCssRules(opt){
     return [getCssRule({
       ...opt,
       disableCssModules:true
+    }),getCssRule({
+      ...opt,
+      disableCssModules:true,
+      isLess:false
     })]
   }else{
     let noCssModulePaths = [resolveRoot('node_modules/antd')];
@@ -34,6 +39,17 @@ function getCssRules(opt){
         ...opt,
         disableCssModules:true,
         include:noCssModulePaths
+      }),
+      getCssRule({
+        ...opt,
+        exclude:noCssModulePaths,
+        isLess:false
+      }),
+      getCssRule({
+        ...opt,
+        disableCssModules:true,
+        include:noCssModulePaths,
+        isLess:false
       })
     ]
   }
@@ -41,7 +57,7 @@ function getCssRules(opt){
 
 
 function getCssRule(opt){
-  const {build,disableCssModules} = opt;
+  const {build,disableCssModules,isLess = true} = opt;
   const cssLoader = disableCssModules ? 'css-loader' : {
     loader: 'css-loader',
     options: {
@@ -56,13 +72,55 @@ function getCssRule(opt){
       javascriptEnabled: true
     }
   };
-  const use = [cssLoader,lessLoader];
+  const sassLoader = 'sass-loader';
+  const use = [cssLoader];
+  if(isLess){
+    use.push(lessLoader);
+  }else{
+    use.push(sassLoader);
+  }
+
   return {
-    test:/\.(css|less|scss)$/,
+    test:isLess ? /\.(css|less)$/ : /\.scss$/,
     use:build ? ExtractTextWebpackPlugin.extract({
       fallback:'style-loader',
       use:use
     }) : ['style-loader',...use],
     ...objectUtil.clone(opt,['include','exclude'])
+  };
+}
+
+
+function getJsRule(){
+  const plugins = [
+    '@babel/plugin-transform-runtime',
+    ['import', {
+      libraryName: 'antd',
+      style: true
+    },'ant'],
+    ['@babel/plugin-proposal-decorators',{legacy:true}],
+    '@babel/plugin-proposal-class-properties',
+    '@babel/plugin-proposal-export-default-from',
+    ...(defineConfig.extraBabelPlugins || [])
+  ];
+  if(defineConfig.typescript){
+    plugins.unshift(['@babel/plugin-transform-typescript', {
+      isTSX: true,
+      allExtensions: true
+    }])
+  }
+
+  return {
+    test: /\.(js|ts)x?$/,
+    use: [
+      {
+        loader:'babel-loader',
+        options:{
+          presets: ['@babel/preset-react','@babel/preset-env',...(defineConfig.extraBabelPresets || [])],
+          plugins
+        }
+      }
+    ],
+    exclude:resolve('node_modules')
   };
 }

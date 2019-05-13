@@ -1,1 +1,1 @@
-export default {"routes":[{"path":"/","component":"Test"}],"devServer":{"port":3212},"isSelf":true}
+export default {"entry":["E:\\workspace\\webpack\\src\\index.js"],"routes":[{"path":"/","component":"Test"}],"devServer":{"port":3212},"isSelf":true}

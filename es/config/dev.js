@@ -6,7 +6,7 @@ const baseConfig = require('./base');
 const webpack = require('webpack');
 const defineConfig = require('./defineConfig');
 const {getCssRules} = require('./util');
-
+console.log(getCssRules());
 module.exports = {
   ...baseConfig,
   mode:'development',

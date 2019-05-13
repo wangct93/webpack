@@ -29,18 +29,3 @@ module.exports = {
     })
   ]
 };
-
-
-function getLessRules(rules){
-  return rules.map(item => {
-    const {use = []} = item;
-    return {
-      ...item,
-      test:/\.(less|css)$/,
-      use:ExtractTextWebpackPlugin.extract({
-        fallback:'style-loader',
-        use:use.slice(1)
-      })
-    }
-  })
-}
