@@ -1,12 +1,9 @@
 
 
-const path = require('path');
-const resolve = (...paths) => path.resolve(process.cwd(),...paths);
 const baseConfig = require('./base');
 const webpack = require('webpack');
 const defineConfig = require('./defineConfig');
 const {getCssRules} = require('./util');
-console.log(getCssRules());
 module.exports = {
   ...baseConfig,
   mode:'development',
@@ -27,7 +24,7 @@ module.exports = {
     ...(defineConfig.plugins || [])
   ],
   devServer:{
-    contentBase:resolve('public'),
+    contentBase:'/',
     port:8888,
     hot:true,
     historyApiFallback: true,

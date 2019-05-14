@@ -1,17 +1,15 @@
 
-const path = require('path');
-const resolve = (...paths) => path.resolve(process.cwd(),...paths);
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin/dist/clean-webpack-plugin');
 const baseConfig = require('./base');
 const defineConfig = require('./defineConfig');
-const {getCssRules} = require('./util');
+const {getCssRules,resolveRoot} = require('./util');
 
 module.exports = {
   ...baseConfig,
   mode:'production',
   output:{
-    path:defineConfig.outputPath || resolve('dist'),
+    path:defineConfig.outputPath || resolveRoot('dist'),
     filename:'[name].js',
     publicPath: defineConfig.publicPath || '/'
   },

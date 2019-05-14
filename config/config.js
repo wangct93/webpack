@@ -13,6 +13,6 @@ module.exports = {
   devServer:{
     port:3212
   },
-  isSelf:true,
+  // isSelf:true,
   // typescript:true
 };

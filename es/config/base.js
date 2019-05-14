@@ -1,12 +1,9 @@
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
-const resolve = (...paths) => path.resolve(process.cwd(),...paths);
-const resolveDva = (...paths) => path.resolve(__dirname,'../..',...paths);
-const {getJsRule} = require('./util');
+const {getJsRule,resolve,resolveRoot} = require('./util');
 const defineConfig = require('./defineConfig');
 
-const indexPath = resolveDva(defineConfig.isSelf ? 'es' : 'lib','src/index');
+const indexPath = resolve(defineConfig.isSelf ? 'es' : 'lib','src/entry.js');
 
 
 module.exports = {
@@ -26,7 +23,7 @@ module.exports = {
         test: /\.jsx?$/,
         enforce:'pre',
         use:'eslint-loader',
-        exclude:resolve('node_modules')
+        exclude:resolveRoot('node_modules')
       },
       {
         test:/\.(gif|jpg|jpeg|png|svg)$/,

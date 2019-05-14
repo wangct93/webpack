@@ -7,13 +7,15 @@ const path = require('path');
 const resolveApp = (...dir) => path.resolve(process.cwd(),...dir);
 const Babel = require('wangct-babel');
 const util = require('wangct-server-util');
+const {getJsRule} = require('../config/util');
 const {arrayUtil} = util;
 
 const resolve = (...dir) => path.resolve(__dirname,'../..',...dir);
 
 const defineConfig = require('../config/defineConfig');
 
-const libDirname = defineConfig.isSelf ? 'es' : 'lib';
+const {isSelf} = defineConfig;
+const libDirname = isSelf ? 'es' : 'lib';
 
 const modelDirname = resolveApp('src/models');
 const configDirname = resolveApp('config');
@@ -68,7 +70,7 @@ options.forEach(opt => {
 
 
 
-function updateModel(cb){
+function updateModel(){
   const time = +new Date();
   console.log('开始生成 model');
   fs.readdir(modelDirname,(err,data) => {
@@ -88,21 +90,42 @@ function updateModel(cb){
       });
       let content = `${importAry.join('')} export default [${modelNameAry.join(',')}];`;
       util.mkdir(modelOutputPath);
-      fs.writeFile(modelOutputPath,content,function(err){
-        if(err){
-          console.log(err);
-        }else{
-          console.log(`成功生成 model ：${modelOutputPath} 用时：${+new Date() - time}ms`);
-          if(typeof cb === 'function'){
-            cb();
+
+      if(isSelf){
+        fs.writeFile(modelOutputPath,content,function(err){
+          if(err){
+            console.log(err);
+          }else{
+            console.log(`成功生成 model ：${modelOutputPath} 用时：${+new Date() - time}ms`);
           }
-        }
-      });
+        });
+      }else{
+        babelContent(content,(code) => {
+          fs.writeFile(modelOutputPath,code,function(err){
+            if(err){
+              console.log(err);
+            }else{
+              console.log(`成功生成 model ：${modelOutputPath} 用时：${+new Date() - time}ms`);
+            }
+          });
+        })
+      }
+
     }
   })
 }
 
-function updateRouter(cb){
+function babelContent(content,cb){
+  require('@babel/core').transform(content,getJsRule().use[0].options,(err,result) => {
+    if(err){
+      console.log(err);
+    }else{
+      cb(result.code);
+    }
+  });
+}
+
+function updateRouter(){
   const time = +new Date();
   console.log('开始生成 router');
 
@@ -118,51 +141,42 @@ function updateRouter(cb){
     output:routerOutputPath,
   });
   util.mkdir(routerOutputPath);
-  fs.writeFile(routerOutputPath,content,(err) => {
-    if(err){
-      console.log(err);
-    }else{
-      console.log(`成功生成 router ：${routerOutputPath} 用时：${+new Date() - time}ms`);
-      util.callFunc(cb);
-    }
-  });
-
   const configOutputPath = resolve(routerOutputPath,'..','config.js');
-  fs.writeFile(configOutputPath,'export default ' + JSON.stringify(config),(err) => {
-    if(err){
-      console.log(err);
-    }else{
-      console.log(`成功生成 config ：${configOutputPath} 用时：${+new Date() - time}ms`);
-    }
-  })
-
-
-  // new Babel({
-  //   src:configDirname,
-  //   output,
-  //   success(){
-  //     Object.keys(require.cache).forEach(key => {
-  //       if(key.includes(output)){
-  //         delete require.cache[key];
-  //       }
-  //     });
-  //
-  //     const config = require(resolve(output,'config')).default;
-  //     const content = getRouterContent({
-  //       ...config,
-  //       output:routerOutputPath,
-  //     });
-  //     util.mkdir(routerOutputPath);
-  //     fs.writeFile(routerOutputPath,content,(err) => {
-  //       if(err){
-  //         console.log(err);
-  //       }else{
-  //         console.log(`成功生成 router ：${routerOutputPath} 用时：${+new Date() - time}ms`);
-  //         util.callFunc(cb);
-  //       }
-  //     });
-  //   }
-  // });
+  if(isSelf){
+    fs.writeFile(routerOutputPath,content,(err) => {
+      if(err){
+        console.log(err);
+      }else{
+        console.log(`成功生成 router ：${routerOutputPath} 用时：${+new Date() - time}ms`);
+      }
+    });
+    fs.writeFile(configOutputPath,'export default ' + JSON.stringify(config),(err) => {
+      if(err){
+        console.log(err);
+      }else{
+        console.log(`成功生成 config ：${configOutputPath} 用时：${+new Date() - time}ms`);
+      }
+    })
+  }else{
+    babelContent(content,(code) => {
+      fs.writeFile(routerOutputPath,code,function(err){
+        if(err){
+          console.log(err);
+        }else{
+          console.log(`成功生成 model ：${routerOutputPath} 用时：${+new Date() - time}ms`);
+        }
+      });
+    })
+    babelContent('export default ' + JSON.stringify(config),(code) => {
+      fs.writeFile(configOutputPath,code,function(err){
+        if(err){
+          console.log(err);
+        }else{
+          console.log(`成功生成 model ：${configOutputPath} 用时：${+new Date() - time}ms`);
+        }
+      });
+    })
+  }
 }
 
 

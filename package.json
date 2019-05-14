@@ -1,8 +1,8 @@
 {
   "name": "wangct-dva",
-  "version": "1.0.17",
+  "version": "1.0.20",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "start": "node es/scripts",
     "build": "node es/scripts build",

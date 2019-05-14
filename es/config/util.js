@@ -121,6 +121,6 @@ function getJsRule(){
         }
       }
     ],
-    exclude:resolve('node_modules')
+    exclude:resolveRoot('node_modules')
   };
 }
