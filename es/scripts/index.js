@@ -14,5 +14,9 @@ switch (scriptType) {
 }
 
 process.on('exit',() => {
-  cp && cp.kill && cp.kill('close');
+  try{
+    cp.kill();
+  }catch(e){
+    console.log(e);
+  }
 });

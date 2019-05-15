@@ -10,7 +10,8 @@ module.exports = {
   getCssRules,
   resolve,
   resolveRoot,
-  getJsRule
+  getJsRule,
+  getFileRule
 };
 
 function getCssRules(opt){
@@ -93,6 +94,7 @@ function getCssRule(opt){
 
 function getJsRule(){
   const plugins = [
+    '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-transform-runtime',
     ['import', {
       libraryName: 'antd',
@@ -123,4 +125,21 @@ function getJsRule(){
     ],
     exclude:resolveRoot('node_modules')
   };
+}
+
+function getFileRule(opt = {}){
+  const {build} = opt;
+  return {
+    test:/\.(gif|jpg|jpeg|png|svg)$/,
+    use:[
+      {
+        loader: 'url-loader',
+        options: {
+          limit: 1024,
+          name: 'static/[name]_[hash].[ext]',
+          publicPath:build ? defineConfig.assetsPublicPath || '/static' : '/'
+        }
+      }
+    ]
+  }
 }

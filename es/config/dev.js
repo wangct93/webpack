@@ -3,19 +3,16 @@
 const baseConfig = require('./base');
 const webpack = require('webpack');
 const defineConfig = require('./defineConfig');
-const {getCssRules} = require('./util');
+const {getCssRules,getFileRule} = require('./util');
 module.exports = {
   ...baseConfig,
   mode:'development',
-  output:{
-    filename:'[name].js',
-    publicPath: '/'
-  },
   devtool:baseConfig.devtool || 'cheap-module-eval-source-map',
   module:{
     rules:[
       ...baseConfig.module.rules,
-      ...getCssRules()
+      ...getCssRules(),
+      getFileRule()
     ]
   },
   plugins:[

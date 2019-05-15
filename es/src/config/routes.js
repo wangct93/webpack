@@ -1,3 +1,3 @@
-import c_4xniciabce from '../../../src/pages/Test/Test';
+import React from 'react';import Async from 'wangct-react/lib/Async';
 export default [{path:'/',
-component:c_4xniciabce}]
+component:(props) => <Async {...props} getComponent={() => import('../../../src/pages/Test/Test')} />}]

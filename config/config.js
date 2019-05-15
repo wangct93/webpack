@@ -13,6 +13,8 @@ module.exports = {
   devServer:{
     port:3212
   },
-  // isSelf:true,
+  isSelf:true,
+  dynamicImport:true,
+  assetsPublicPath:'ww'
   // typescript:true
 };

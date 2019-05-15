@@ -209,7 +209,7 @@ function getRouterContent(option){
     return `{${valueContent}}`
   }).join(',\n');
   const content = `[${valueContent}]`;
-  return isRoot ? `${arrayUtil.noRepeat(importList).join('')}export default ${content}` : content;
+  return isRoot ? `import React from 'react';${arrayUtil.noRepeat(importList).join('')}export default ${content}` : content;
 }
 
 

@@ -10,6 +10,11 @@ module.exports = {
   entry:{
     index:[indexPath].concat(defineConfig.entry).filter(item => !!item)
   },
+  output:{
+    path:defineConfig.outputPath || resolveRoot('dist'),
+    filename:'[name].js',
+    publicPath: defineConfig.publicPath || '/'
+  },
   externals:defineConfig.externals,
   resolve:{
     alias:defineConfig.alias,
@@ -24,18 +29,6 @@ module.exports = {
         enforce:'pre',
         use:'eslint-loader',
         exclude:resolveRoot('node_modules')
-      },
-      {
-        test:/\.(gif|jpg|jpeg|png|svg)$/,
-        use:[
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 1024,
-              name: 'static/[name]_[hash].[ext]'
-            }
-          }
-        ]
       },
       ...(defineConfig.rules || [])
     ]
