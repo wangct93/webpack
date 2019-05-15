@@ -1,5 +1,5 @@
 import {createStore} from "redux";
-import util, {arrayUtil} from "wangct-util";
+import util, {arrayUtil,reactUtil} from "wangct-util";
 import models from '../config/models';
 import history from './history';
 
@@ -74,6 +74,8 @@ export function getStore(models){
     const [typespace,funcField] = type.split('/');
     return funcField ? type : namespace + '/' + typespace
   }
+
+  reactUtil.setDispatch(getDispatch());
 
   return store;
 }
