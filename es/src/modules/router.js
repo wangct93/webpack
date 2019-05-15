@@ -4,12 +4,13 @@ import {Switch,Router,Route} from 'react-router-dom';
 import path from 'path';
 import history from './history';
 import routes from '../config/routes';
+import config from '../config/config';
 
 export default class RootRouter extends PureComponent{
   render(){
     return <Router history={history}>
       {
-        getRoutes(routes)
+        getRoutes(routes,config.indexPath)
       }
     </Router>
   }

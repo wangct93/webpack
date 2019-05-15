@@ -1,4 +1,4 @@
-
+import {message} from 'antd';
 const {fetch} = window;
 
 
@@ -14,9 +14,16 @@ export default function request(url, options = {}) {
   return fetch(url, newOptions)
     .then(checkStatus)
     .then(parseJSON)
-    .catch(() => ({status:0,message:'连接服务器失败！'}))
+    .catch(() => ({success:false,message:'连接服务器失败！'}))
     .then(json => {
-      return json.status ? Promise.resolve(json) : Promise.reject(json);
+      if(json.success){
+        return Promise.resolve(json.data);
+      }else{
+        if(options.errorAlert){
+          message.error(json.message);
+        }
+        return Promise.reject(json.message);
+      }
     });
 }
 
