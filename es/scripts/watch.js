@@ -4,28 +4,25 @@
 
 const fs = require('fs');
 const path = require('path');
-const resolveApp = (...dir) => path.resolve(process.cwd(),...dir);
 const Babel = require('wangct-babel');
 const util = require('wangct-server-util');
-const {getJsRule} = require('../config/util');
+const {getJsRule,resolveRoot,resolve} = require('../config/util');
 const {arrayUtil} = util;
-
-const resolve = (...dir) => path.resolve(__dirname,'../..',...dir);
 
 const defineConfig = require('../config/defineConfig');
 
 const {isSelf} = defineConfig;
 const libDirname = isSelf ? 'es' : 'lib';
 
-const modelDirname = resolveApp('src/models');
-const configDirname = resolveApp('config');
-const pageDirname = resolveApp('src/pages');
-const componentConfigPath = resolveApp('src/components/config.js');
+const modelDirname = resolveRoot('src/models');
+const configDirname = resolveRoot('config');
+const pageDirname = defineConfig.pageDirname || resolveRoot('src/pages');
+const componentConfigPath = resolveRoot('src/components/config.js');
 
 
 const modelOutputPath = resolve(libDirname,'src/config/models.js');
 const routerOutputPath = resolve(libDirname,'src/config/routes.js');
-const componentOutput = resolveApp('src/components/index.js');
+const componentOutput = resolveRoot('src/components/index.js');
 const tempDirname = resolve('temp');
 
 
