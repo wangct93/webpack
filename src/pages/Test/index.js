@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import {Carousel, Input, Icon, Rate, Button} from 'antd';
 import util, {reactUtil} from 'wangct-util';
 
-import css from './Test.less';
+import css from './index.less';
 
 const dispatch = reactUtil.getDispatch('home');
 const history = reactUtil.getHistory();

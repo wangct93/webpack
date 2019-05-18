@@ -184,7 +184,7 @@ function getRouterContent(option){
     const valueContent = Object.keys(item).map(key => {
       let value = item[key];
       if(key === 'component'){
-        const relativePath = path.relative(path.dirname(output),resolve(pageDirname,value,value)).replace(/\\/g,'/');
+        const relativePath = path.relative(path.dirname(output),resolve(pageDirname,value)).replace(/\\/g,'/');
         let {dynamic = option.dynamicImport} = item;
         if(dynamic){
           importList.push(`import Async from 'wangct-react/lib/Async';\n`);

@@ -27,8 +27,7 @@ module.exports = {
     historyApiFallback: true,
     host:'0.0.0.0',
     useLocalIp:true,
+    open:true,
     ...defineConfig.devServer
-
-    // open:true
   }
 };
