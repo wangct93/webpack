@@ -1,1 +1,1 @@
-export default {"entry":["E:\\workspace\\publish\\wangct-dva\\src\\index.js"],"routes":[{"path":"/","component":"Test"}],"devServer":{"port":3212},"isSelf":true,"dynamicImport":true,"assetsPublicPath":"ww"}
+export default {"entry":["F:\\workspace\\publish\\wangct-dva\\src\\index.js"],"routes":[{"path":"/","component":"Test"}],"devServer":{"port":3212},"isSelf":true,"dynamicImport":true,"assetsPublicPath":"ww"}

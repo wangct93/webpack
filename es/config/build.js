@@ -4,10 +4,11 @@ const CleanWebpackPlugin = require('clean-webpack-plugin/dist/clean-webpack-plug
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const baseConfig = require('./base');
 const defineConfig = require('./defineConfig');
-const {getCssRules,getFileRule} = require('./util');
+const {getCssRules,getFileRule,extraWebpackConfig} = require('./util');
 
 
-module.exports = {
+
+module.exports = extraWebpackConfig({
   ...baseConfig,
   mode:'production',
   module:{
@@ -25,4 +26,4 @@ module.exports = {
     }),
     new OptimizeCssAssetsWebpackPlugin()
   ]
-};
+});

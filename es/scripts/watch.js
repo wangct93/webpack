@@ -54,17 +54,21 @@ const options = [
   }
 ];
 
+exports.once = once;
+exports.start = start;
 
-options.forEach(opt => {
-  fs.stat(opt.src,(err) => {
-    if(err){
-      util.callFunc(opt.error);
-    }else{
-      util.watch(opt);
-    }
+function once(){
+  options.forEach(opt => {
+    util.callFunc(opt.callback);
   });
-});
+}
 
+
+function start(){
+  options.forEach(opt => {
+    util.watch(opt);
+  });
+}
 
 
 function updateModel(){

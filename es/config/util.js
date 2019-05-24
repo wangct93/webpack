@@ -11,7 +11,8 @@ module.exports = {
   resolve,
   resolveRoot,
   getJsRule,
-  getFileRule
+  getFileRule,
+  extraWebpackConfig
 };
 
 function getCssRules(opt){
@@ -142,4 +143,10 @@ function getFileRule(opt = {}){
       }
     ]
   }
+}
+
+function extraWebpackConfig(config){
+  const configPath = util.resolve('webpack.config.js');
+  const isExist = util.isExist(configPath);
+  return isExist ? require(configPath)(config) : config;
 }
