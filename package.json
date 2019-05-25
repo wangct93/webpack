@@ -1,16 +1,16 @@
 {
-  "name": "wangct-dva",
-  "version": "1.0.25-b1",
+  "name": "wangct-webpack",
+  "version": "1.0.0",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "start": "node es/scripts",
-    "build": "node es/scripts build",
+    "start": "node lib/start",
+    "build": "node lib/start build",
     "publish": "npm publish --registry https://registry.npmjs.org/",
     "babel": "node test/babel"
   },
   "bin": {
-    "wangct-dva": "./bin/dva.js"
+    "wangct-webpack": "./bin/start.js"
   },
   "author": "wangct",
   "license": "ISC",
@@ -44,9 +44,6 @@
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
-    "react-redux": "^7.0.3",
-    "react-router-dom": "^5.0.0",
-    "redux": "^4.0.1",
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
     "wangct-babel": "^1.0.9",
@@ -60,14 +57,16 @@
     "antd": "^3.17.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-redux": "^7.0.3",
+    "react-router-dom": "^5.0.0",
+    "redux": "^4.0.1",
     "wangct-react": "^1.0.7"
   },
   "files": [
     "bin",
-    "lib",
-    "template"
+    "lib"
   ],
   "keywords": [
-    "wangct-dva"
+    "wangct-webpack"
   ]
 }

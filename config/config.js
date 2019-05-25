@@ -1,9 +1,10 @@
 
-const path = require('path');
-const resolve = (...paths) => path.resolve(process.cwd(),...paths);
+const util = require('wangct-server-util');
 
 module.exports = {
-  entry:[resolve('src/index.js')],
+  entry:{
+    main:util.resolve('src/index.js')
+  },
   routes:[
     {
       path:'/',
@@ -13,8 +14,6 @@ module.exports = {
   devServer:{
     port:3212
   },
-  isSelf:true,
   dynamicImport:true,
-  assetsPublicPath:'ww'
-  // typescript:true
+  eslint:true,
 };
