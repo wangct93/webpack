@@ -1,1 +1,1 @@
- export {};
+import headr from './headr'; export {headr};

@@ -1,3 +1,7 @@
-export default {
-  components:[]
+
+
+module.exports = {
+  components:[
+    'headr'
+  ]
 }
