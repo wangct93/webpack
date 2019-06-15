@@ -1,1 +1,1 @@
-export default {"entry":{"main":"F:\\workspace\\publish\\wangct-webpack\\src"},"routes":[{"path":"/","component":"Test"}],"dynamicImport":true,"eslint":true}
+export default {"routes":[{"path":"/","component":"Test"}],"proxy":{"/api":"http://localhost:8055"},"dynamicImport":true,"eslint":true}
