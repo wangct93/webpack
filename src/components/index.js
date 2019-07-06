@@ -1,1 +1,1 @@
-import headr from './headr'; export {headr};
+import header from './header'; export {header};

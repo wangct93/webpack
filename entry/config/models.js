@@ -1,0 +1,1 @@
+import global_uyh7i46ds3 from '../../src/models/global.js'; export default [global_uyh7i46ds3];
