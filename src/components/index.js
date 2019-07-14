@@ -1,1 +1,1 @@
-import header from './header'; export {header};
+import Header from './Header'; export {Header};

@@ -5,6 +5,7 @@ const {resolve} = util;
 
 module.exports = {
   // entry:resolve('src'),
+  port:'8981',
   routes:[
     {
       path:'/',

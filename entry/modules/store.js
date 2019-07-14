@@ -1,5 +1,5 @@
 import {createStore} from "redux";
-import util, {arrayUtil,reactUtil} from "wangct-util";
+import {aryToObject, callFunc, isFunc, isPromise, setDispatch} from "wangct-util";
 import history from './history';
 import models from '../config/models';
 
@@ -27,7 +27,7 @@ export function getStore(models){
       ...state,
       ...updateState
     }
-  },arrayUtil.toObject(models,'namespace',item => item.state))
+  },aryToObject(models,'namespace',item => item.state))
 
 
   function put(namespace,action){
@@ -41,9 +41,9 @@ export function getStore(models){
 
   function call(...args){
     const target = args[0];
-    if(util.isPromise(target)){
+    if(isPromise(target)){
       return target;
-    }else if(util.isFunc(target)){
+    }else if(isFunc(target)){
       return target(...args.slice(1));
     }else{
       return Promise.resolve(args);
@@ -53,7 +53,7 @@ export function getStore(models){
   models.forEach(({subscriptions,namespace}) => {
     if(subscriptions){
       Object.keys(subscriptions).forEach(key => {
-        util.callFunc(subscriptions[key],{
+        callFunc(subscriptions[key],{
           dispatch:getDispatch(namespace),
           history
         })
@@ -75,7 +75,7 @@ export function getStore(models){
     return funcField ? type : namespace + '/' + typespace
   }
 
-  reactUtil.setDispatch(getDispatch());
+  setDispatch(getDispatch());
 
   return store;
 }
@@ -85,7 +85,7 @@ export function getStore(models){
 function loopGenerator(gener,params){
   const {value,done} = gener.next(params);
   if(!done){
-    if(util.isPromise(value)){
+    if(isPromise(value)){
       value.then(data => {
         loopGenerator(gener,data);
       })
