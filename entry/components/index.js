@@ -1,2 +1,0 @@
-
-export Async from './Async';
