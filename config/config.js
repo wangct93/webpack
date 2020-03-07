@@ -16,10 +16,8 @@ module.exports = {
       component:'Test'
     },
   ],
-  output:{
-    build:{
-      publicPath:'./'
-    }
+  prod:{
+    outputPublicPath: './',
   },
   proxy:{
     '/api':'http://localhost:8055'

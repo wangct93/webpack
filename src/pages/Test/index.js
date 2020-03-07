@@ -1,6 +1,5 @@
 import React, {PureComponent} from 'react';
 import {Carousel, Input, Icon, Rate, Button,Modal} from 'antd';
-import util, {getProps} from 'wangct-util';
 import {request,history,dispatch} from 'wangct-react-entry';
 
 import css from './index.less';
