@@ -1,6 +1,6 @@
 {
   "name": "wangct-webpack",
-  "version": "1.1.0",
+  "version": "1.1.4",
   "description": "wangct脚手架",
   "main": "index.js",
   "scripts": {
