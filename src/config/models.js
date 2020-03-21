@@ -1,0 +1,1 @@
+import global_6wtisn7y5q from '../models/global.js'; export default [global_6wtisn7y5q];

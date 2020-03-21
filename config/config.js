@@ -23,5 +23,5 @@ module.exports = {
     '/api':'http://localhost:8055'
   },
   dynamicImport:true,
-  eslint:true
+  eslint:true,
 };
