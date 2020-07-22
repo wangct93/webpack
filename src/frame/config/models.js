@@ -1,0 +1,1 @@
+import global_3ex6okfibn from '../../models/global.js'; export default [global_3ex6okfibn];

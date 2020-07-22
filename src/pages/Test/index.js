@@ -1,12 +1,9 @@
 import React, {PureComponent} from 'react';
 import {Carousel, Input, Icon, Rate, Button,Modal} from 'antd';
-import {request,history,dispatch} from 'wangct-react-entry';
 
 import css from './index.less';
 
 import IMG from '../../assets/id_user.jpg';
-
-console.log(request,history,dispatch)
 
 export default class Home extends PureComponent {
   render() {

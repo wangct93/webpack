@@ -1,1 +1,1 @@
-import Header from './Header'; export {Header};
+import DefineComponent from './DefineComponent';import Header from './Header'; export {DefineComponent,Header};

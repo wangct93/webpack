@@ -1,0 +1,32 @@
+@activeColor:#1890ff;
+
+.flex-parent(){
+  display: flex;
+}
+
+.flex-parent-column(){
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.flex-child(){
+  width: 0;
+  flex:1;
+}
+
+.flex-child-column(){
+  height: 0;
+  flex:1;
+}
+
+.flex-center(){
+  .flex-parent();
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-center-columns(){
+  .flex-center();
+  .flex-parent-column();
+}

@@ -1,15 +1,15 @@
 {
-  "name": "wangct-webpack",
-  "version": "1.1.9",
-  "description": "wangct脚手架",
+  "name": "@wangct/react-webpack",
+  "version": "1.0.0",
+  "description": "react脚手架",
   "main": "index.js",
   "scripts": {
     "start": "node lib/start",
     "build": "node lib/start build",
-    "publish": "npm publish --registry https://registry.npmjs.org/"
+    "publish": "npm publish --registry https://registry.npmjs.org/ --access=public"
   },
   "bin": {
-    "wangct-webpack": "./bin/start.js"
+    "react-webpack": "./bin/start.js"
   },
   "author": "wangct",
   "license": "ISC",
@@ -45,21 +45,19 @@
     "html-webpack-plugin": "^3.2.0",
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
+    "node-util-1": "^1.0.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "progress-bar-webpack-plugin": "^1.12.1",
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
-    "wangct-babel": "^1.0.11",
-    "wangct-react-entry": "^1.0.1",
-    "wangct-server-util": "^1.0.42",
-    "wangct-util": "^1.1.2",
+    "util-1": "^1.0.4",
     "webpack": "^4.37.0",
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.7.2"
   },
   "devDependencies": {
     "antd": "^3.20.5",
-    "react": "^16.8.6",
+    "react": "^16.13.1",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.3",
     "react-router-dom": "^5.1.2",

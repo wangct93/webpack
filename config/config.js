@@ -1,11 +1,15 @@
 
-const util = require('wangct-server-util');
+const util = require('node-util-1');
 
 const {resolve} = util;
 
 module.exports = {
   // entry:resolve('src'),
+  entry:{
+    index:[resolve('src')]
+  },
   port:'8981',
+  mode:'development',
   routes:[
     {
       path:'/',
@@ -18,6 +22,9 @@ module.exports = {
   ],
   prod:{
     outputPublicPath: './',
+  },
+  externals:{
+    // react:'React',
   },
   proxy:{
     '/api':'http://localhost:8055'
