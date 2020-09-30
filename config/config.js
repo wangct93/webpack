@@ -1,5 +1,5 @@
 
-const util = require('node-util-1');
+const util = require('@wangct/node-util');
 
 const {resolve} = util;
 

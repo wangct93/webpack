@@ -1,1 +1,1 @@
-import global_3ex6okfibn from '../../models/global.js'; export default [global_3ex6okfibn];
+import global_ucpqfgh1u from '../../models/global.js'; export default [global_ucpqfgh1u];
