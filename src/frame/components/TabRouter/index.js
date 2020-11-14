@@ -1,7 +1,7 @@
 import React, {PureComponent} from "react";
 import {Tabs} from 'antd';
 import css from './index.less';
-import {pathJoin, toAry} from "util-1";
+import {pathJoin, toAry} from "@wangct/util";
 import {getPathname, reduxConnect} from "../../utils/state";
 import {getRoutes} from "../Router";
 

@@ -1,1 +1,1 @@
-import global_ucpqfgh1u from '../../models/global.js'; export default [global_ucpqfgh1u];
+import global_lch1vg3wt1 from '../../models/global.js'; export default [global_lch1vg3wt1];

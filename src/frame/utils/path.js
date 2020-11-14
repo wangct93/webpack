@@ -1,4 +1,4 @@
-import {isObj, isStr, stringify} from "util-1";
+import {isObj, isStr, stringify} from "@wangct/util";
 import history from '../modules/history';
 
 /**

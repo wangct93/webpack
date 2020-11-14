@@ -1,5 +1,5 @@
 import {createStore} from "redux";
-import {aryToObject, callFunc, isFunc, isPromise, objForEach, toAry, toStr} from "util-1";
+import {aryToObject, callFunc, isFunc, isPromise, objForEach, toAry, toStr} from "@wangct/util";
 import history from './history';
 
 /**
@@ -30,14 +30,10 @@ export function getStore(models){
       },0);
     }
     if(reducers[funcField]){
-      let scopeState = reducers[funcField](state[namespace],action);
-      const oldScopeState = state[namespace];
-      if(scopeState._type === 'init'){
-        scopeState = scopeState.data;
-      }
-      const watchState = getWatchState(scopeState,watchPropsMap[namespace],oldScopeState);
+      const oldState = state[namespace] || {};
+      const scopeState = reducers[funcField](oldState,action) || {};
+      const watchState = getWatchState(watchPropsMap[namespace],scopeState,oldState);
       updateState[namespace] = {
-        ...oldScopeState,
         ...scopeState,
         ...watchState,
       };
@@ -164,7 +160,10 @@ function update(state,{field,data,parentField}){
       },
     };
   }
-  return extState;
+  return {
+    ...state,
+    ...extState,
+  };
 }
 
 /**
@@ -173,68 +172,36 @@ function update(state,{field,data,parentField}){
  */
 function getWatchPropsMap(models){
   return aryToObject(models,'namespace',((model) => {
-    const {watch = {}} = model;
+    const {watchs = {},watch = watchs} = model;
     const mapData = {};
-    const objPropMapData = {};
     objForEach(watch,(value,key) => {
       const temp = key.split(',');
       temp.forEach((itemKey) => {
-        const data = itemKey.includes('.') ? objPropMapData : mapData;
-        const ary = data[itemKey] || [];
+        const ary = mapData[itemKey] || [];
         ary.push({
           func:value,
           args:temp,
         });
-        data[itemKey] = ary;
+        mapData[itemKey] = ary;
       });
     });
-    return {
-      propMap:mapData,
-      objPropMap:objPropMapData,
-    };
+    return mapData;
   }));
 }
 
 /**
  * 获取监听的state
- * @param state
- * @param watchPropsMap
- * @param originState
  */
-function getWatchState(state,{propMap = {},objPropMap = {}},originState){
+function getWatchState(watchProps,state,originState){
   let watchState = {};
-  const changedCache = {};
   const tempMap = new Map();
-  const realState = {
-    ...originState,
-    ...state,
-  };
-  objForEach(state,(value,key) => {
-    toAry(propMap[key]).forEach((item) => {
-      callWatchFunc(item);
-    });
-  });
-  objForEach(objPropMap,(value,key) => {
-    if(isChanged(key)){
-      value.forEach((item) => {
+  objForEach(watchProps,(value,key) => {
+    if(state[key] !== originState[key]){
+      toAry(watchProps[key]).forEach((item) => {
         callWatchFunc(item);
       });
     }
   });
-
-  /**
-   * 字段值是否改变
-   * @param field
-   * @returns {boolean|*}
-   */
-  function isChanged(field){
-    if(changedCache[field] !== undefined){
-      return changedCache[field];
-    }
-    const result = getValueByWatchField(realState,field) !== getValueByWatchField(originState,field);
-    changedCache[field] = result;
-    return result;
-  }
 
   /**
    * 调用监听函数
@@ -246,10 +213,9 @@ function getWatchState(state,{propMap = {},objPropMap = {}},originState){
     }
     tempMap.set(data.func,true);
     const args = toAry(data.args).map((name) => {
-      const [field] = name.split('.');
-      return realState[field];
+      return state[name];
     });
-    const funcState = data.func(...args);
+    const funcState = data.func(...args,state);
     watchState = {
       ...watchState,
       ...funcState,
@@ -257,19 +223,4 @@ function getWatchState(state,{propMap = {},objPropMap = {}},originState){
   }
 
   return watchState;
-}
-
-/**
- * 根据监听字段获取对应值
- * @param state
- * @param field
- * @returns {*}
- */
-function getValueByWatchField(state = {},field){
-  toStr(field).split('.').forEach(field => {
-    if(state){
-      state = state[field];
-    }
-  });
-  return state;
 }
