@@ -1,5 +1,7 @@
 import {isObj, isStr, stringify} from "@wangct/util";
 import history from '../modules/history';
+import {getPathname} from "./state";
+import {toStr} from "@wangct/util/lib/stringUtil";
 
 /**
  * 路径合并
@@ -26,4 +28,14 @@ export function pathTo(path,qsParams = false,hash = false){
     path += isStr(hash) ? '#' + hash : location.hash;
   }
   return history.push(path);
+}
+
+/**
+ * 路径匹配
+  * @param targetPath
+ * @param pathanme
+ * @returns {boolean}
+ */
+export function pathMatch(targetPath,pathanme = getPathname()){
+  return ('/' + toStr(pathanme) + '/').startsWith('/' + toStr(targetPath) + '/');
 }

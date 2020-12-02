@@ -5,6 +5,7 @@ import css from './index.less';
 import {random} from "@wangct/util/lib/util";
 import {updateModel} from "../../frame";
 
+console.log(123);
 
 export default class Home extends PureComponent {
 
