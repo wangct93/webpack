@@ -168,5 +168,3 @@ export function getDispatch(namespace){
 export function dispatch(...args){
   return updateModel(...args);
 }
-
-window.getState = getState;
