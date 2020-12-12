@@ -1,12 +1,13 @@
 {
   "name": "@wangct/webpack",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "react脚手架",
   "main": "index.js",
   "scripts": {
     "start": "node lib/start",
     "build": "node lib/start build",
-    "pu": "npm publish --registry https://registry.npmjs.org/ --access=public"
+    "pu": "npm publish --registry https://registry.npmjs.org/ --access=public",
+    "login": "npm login --registry https://registry.npmjs.org/"
   },
   "bin": {
     "dev": "./bin/start.js"
