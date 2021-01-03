@@ -1,1 +1,1 @@
-import global_2ly218i1wo4 from '../../models/global.js'; export default [global_2ly218i1wo4];
+import global_4og0uyr3r1 from '../../models/global.js'; export default [global_4og0uyr3r1];
