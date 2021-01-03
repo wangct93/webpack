@@ -131,5 +131,43 @@ export default class DefineComponent extends PureComponent {
     return this.getProp('disabled');
   }
 
+  getColumns(){
+    return toAry(this.getProp('columns'));
+  }
+
+  initValue(){
+    const defaultValue = this.getProp('defaultValue');
+    if(this.getProp('value') == null && defaultValue != null){
+      this.onChange(defaultValue);
+    }
+  }
+
+  getPathParams(){
+    return this.props.match && this.props.match.params || {};
+  }
+
+  setOptions(options){
+    options = toAry(options);
+    this.setState({
+      options,
+    });
+    callFunc(this.props.onOptionsChange,options);
+  }
+
+  fieldChange = (field,value) => {
+    this.setState({
+      [field]:value,
+    });
+  }
+
+  setStateElem = (elem) => {
+    this.setState({
+      _elem:elem,
+    });
+  };
+
+  getStateElem(){
+    return this.state && this.state._elem;
+  }
 
 }

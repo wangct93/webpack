@@ -80,22 +80,24 @@ export function getStore(models){
     }
   }
 
-  models.forEach((model) => {
-    const {subscriptions,namespace} = model;
-    store.dispatch({
-      type:model.namespace + '/update',
-      field:'multiple',
-      data:model.state,
-    });
-    if(subscriptions){
-      Object.keys(subscriptions).forEach(key => {
-        callFunc(subscriptions[key],{
-          dispatch:getStoreDispatch(store,namespace),
-          history
+  setTimeout(() => {
+    models.forEach((model) => {
+      const {subscriptions,namespace} = model;
+      store.dispatch({
+        type:model.namespace + '/update',
+        field:'multiple',
+        data:model.state,
+      });
+      if(subscriptions){
+        Object.keys(subscriptions).forEach(key => {
+          callFunc(subscriptions[key],{
+            dispatch:getStoreDispatch(store,namespace),
+            history
+          })
         })
-      })
-    }
-  });
+      }
+    });
+  },0);
   return store;
 }
 
