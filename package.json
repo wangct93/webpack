@@ -1,6 +1,6 @@
 {
   "name": "@wangct/webpack",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "react脚手架",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,7 @@
     "@babel/preset-typescript": "^7.3.3",
     "@babel/runtime": "^7.5.5",
     "@wangct/node-util": "^1.0.1",
-    "@wangct/util": "^1.0.3",
+    "@wangct/util": "^1.0.6",
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
     "babel-plugin-import": "^1.12.0",

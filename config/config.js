@@ -10,16 +10,6 @@ module.exports = {
   },
   port:'8981',
   mode:'development',
-  routes:[
-    {
-      path:'/',
-      component:'Test'
-    },
-    {
-      path:'/2333',
-      component:'Test'
-    },
-  ],
   prod:{
     outputPublicPath: './',
   },

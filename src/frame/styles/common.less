@@ -1,32 +1,72 @@
+@borderColor:#ddd;
 @activeColor:#1890ff;
+@fontColor:#252525;
 
-.flex-parent(){
-  display: flex;
+@borderWidth:1px;
+@scrollbarWidth:17px;
+@fontSize:14px;
+
+@border:1px solid @borderColor;
+
+.full_width(){
+  width: 100%;
 }
 
-.flex-parent-column(){
+.full_height(){
+  height: 100%;
+}
+
+.full(){
+  .full_width();
+  .full_height();
+}
+
+.flex_parent(){
   display: flex;
+  flex-direction: row;
+}
+
+.flex_parent_column(){
+  .flex_parent();
   flex-direction: column;
   height: 100%;
 }
 
-.flex-child(){
+.flex_child(){
+  flex:1;
   width: 0;
-  flex:1;
 }
 
-.flex-child-column(){
+.flex_child_column(){
+  .flex_child();
   height: 0;
-  flex:1;
+  width: auto;
 }
 
-.flex-center(){
-  .flex-parent();
+.flex_center(){
+  .flex_parent();
   align-items: center;
   justify-content: center;
 }
 
-.flex-center-columns(){
-  .flex-center();
-  .flex-parent-column();
+.body_content(){
+  background-color: #fff;
+  border-radius: .10rem;
+  overflow: auto;
+  height: 100%;
+}
+
+.div_bg(){
+  background:center no-repeat;
+  background-size: contain;
+}
+
+.div_bg_full(){
+  background-size: 100% 100%;
+}
+
+.text_ellipsis{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }

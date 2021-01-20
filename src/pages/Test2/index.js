@@ -5,18 +5,18 @@ import css from './index.less';
 import {random} from "@wangct/util/lib/util";
 import {pathTo, updateModel} from "../../frame";
 
-console.log(123);
+console.log(2222222);
 
 export default class Home extends PureComponent {
 
   doTest = () => {
-    pathTo('/2333')
+    pathTo('/')
   }
 
   render() {
     console.log(this.props);
     return <div className={css.container} onClick={this.doTest}>
-      测试页面hello world！d2131
+      测试页面hello2
     </div>
   }
 }

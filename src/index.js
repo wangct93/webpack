@@ -1,8 +1,7 @@
-// import {appStart} from "./frame";
-//
-//
-// appStart();
+import {appStart, setRoutes} from "./frame";
+import routes from "./json/routes";
+appStart().then(() => {
+  setRoutes(routes);
+});
 
-import css from './less/a.less';
 
-console.log(123,css);

@@ -8,10 +8,30 @@ import {callFunc, equal} from "@wangct/util/lib/util";
 export default class DefineComponent extends PureComponent {
 
   componentDidMount() {
+    this.init();
+  }
 
+  init(){
+    this.initValue();
+    this.initOptions();
+  }
+
+  initOptions(){
+    const {optionsPromise} = this;
+    if(optionsPromise){
+      toPromise(optionsPromise).then((options) => {
+        this.setOptions(options);
+      });
+    }
   }
 
   checkProp(prevProps,field,func){
+    if(!equal(prevProps[field],this.props[field])){
+      callFunc.call(this,func);
+    }
+  }
+
+  checkField(prevProps,field,func){
     if(!equal(prevProps[field],this.props[field])){
       callFunc.call(this,func);
     }
@@ -158,7 +178,7 @@ export default class DefineComponent extends PureComponent {
     this.setState({
       [field]:value,
     });
-  }
+  };
 
   setStateElem = (elem) => {
     this.setState({
@@ -169,5 +189,34 @@ export default class DefineComponent extends PureComponent {
   getStateElem(){
     return this.state && this.state._elem;
   }
+
+  setTable = (table) => {
+    this.table = table;
+  };
+
+  getTable(){
+    return this.table;
+  }
+
+  tableSearch(params){
+    const table = this.getTable();
+    if(table && table.doSearch){
+      table.doSearch(params);
+    }
+  }
+
+  tableReload(){
+    const table = this.getTable();
+    if(table && table.doReload){
+      table.doReload();
+    }
+  }
+
+  focus = () => {
+    const elem = this.getElem();
+    if(elem && elem.focus){
+      elem.focus();
+    }
+  };
 
 }

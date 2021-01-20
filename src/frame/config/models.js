@@ -1,1 +1,1 @@
-import global_4og0uyr3r1 from '../../models/global.js'; export default [global_4og0uyr3r1];
+import global_7qrsij1g0mw from '../../models/global.js'; export default [global_7qrsij1g0mw];

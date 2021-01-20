@@ -1,1 +1,1 @@
-export default {"entry":{"index":["E:\\workspace\\github\\webpack\\src"]},"port":"8981","mode":"development","routes":[{"path":"/","component":"Test"},{"path":"/2333","component":"Test"}],"prod":{"outputPublicPath":"./"},"externals":{},"proxy":{"/api":"http://localhost:8055"},"dynamicImport":true,"eslint":true}
+export default {};
