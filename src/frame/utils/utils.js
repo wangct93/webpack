@@ -78,3 +78,18 @@ export function getLocalStore(key){
   },value);
 }
 
+/**
+ * 是否为开发环境
+ * @author wangchuitong
+ */
+export function isDevEnv(){
+  let isDev = getGlobalConfig('isDev');
+  if(isDev == null){
+    try{
+      isDev = define_isDevEnv;
+    }catch(e){
+
+    }
+  }
+  return isDev;
+}

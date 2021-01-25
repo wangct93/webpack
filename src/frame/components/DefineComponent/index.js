@@ -46,7 +46,7 @@ export default class DefineComponent extends PureComponent {
   }
 
   getData(){
-    return this.getProp('data');
+    return this.getProp('data') || {};
   }
 
   getTextField(){
@@ -133,7 +133,7 @@ export default class DefineComponent extends PureComponent {
   };
 
   getFormValue(){
-    return this.getProp('formValue');
+    return this.getProp('formValue') || {};
   }
 
   getSelectedKey(){

@@ -5,3 +5,4 @@ appStart().then(() => {
 });
 
 
+console.log(define_isDevEnv,typeof define_isDevEnv);

@@ -1,1 +1,1 @@
-import global_7qrsij1g0mw from '../../models/global.js'; export default [global_7qrsij1g0mw];
+import global_dca4dkw7qnc from '../../models/global.js'; export default [global_dca4dkw7qnc];
