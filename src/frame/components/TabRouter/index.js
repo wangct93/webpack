@@ -3,7 +3,7 @@ import {Tabs} from 'antd';
 import css from './index.less';
 import {toAry} from "@wangct/util";
 import {getPathname, reduxConnect} from "../../utils/state";
-import {getRoutes} from "../Router";
+import {getRoutesContent} from "../Router";
 import {pathJoin} from "../../utils/path";
 
 /**
@@ -85,7 +85,7 @@ class TabComMod extends PureComponent {
     const {component:Com,children,path:routePath,indexPath,isTab} = this.getData();
     return <Com >
       {
-        children && children.length && getRoutes(children.map(childRoute => ({...childRoute,path:pathJoin(routePath,childRoute.path)})),indexPath && pathJoin(routePath,indexPath),isTab)
+        children && children.length && getRoutesContent(children.map(childRoute => ({...childRoute,path:pathJoin(routePath,childRoute.path)})),indexPath && pathJoin(routePath,indexPath),isTab)
       }
     </Com>;
   }
