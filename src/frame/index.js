@@ -1,7 +1,6 @@
 import './styles/global.less';
 import React from 'react';
 import {render} from 'react-dom';
-import selfModels from './models';
 import {getElem} from "./utils/utils";
 import {getStore} from "./modules/store";
 import {setStore} from "./utils/state";
@@ -20,9 +19,9 @@ export * from './utils/alert';
  */
 export async function appStart(elem = 'root'){
   // const routesPro = import('./config/routes').then(mod => mod.default);
-  const models = await import('./config/models').then(mod => mod.default);
+  const models = await import('./models').then(mod => mod.default);
   elem = getElem(elem);
-  const store = getStore([...models,...selfModels]);
+  const store = getStore(models);
   setStore(store);
   render(<RouterMod store={store} />,elem);
 }

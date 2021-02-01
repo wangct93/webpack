@@ -219,4 +219,16 @@ export default class DefineComponent extends PureComponent {
     }
   };
 
+  componentDidCatch(error, errorInfo) {
+    // console.error(error);
+    // this.setState({
+    //   _isError:true,
+    // });
+    // @ts-ignore
+    // this.normalRender = this.render;
+    // this.render = () => {
+    //   return <div>error</div>;
+    // };
+  }
+
 }
