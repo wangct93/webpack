@@ -1,1 +1,0 @@
-import global_4882thhvq from '../../models/global.js'; export default [global_4882thhvq];
