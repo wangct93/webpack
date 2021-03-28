@@ -1,0 +1,1 @@
+export default {"entry":{"index":["F:\\workspace\\publish\\webpack\\src"]},"port":"8981","mode":"development","prod":{"outputPublicPath":"./"},"externals":{},"proxy":{"/api":"http://localhost:8055"},"dynamicImport":true,"eslint":true,"disableCssModules":["F:\\workspace\\publish\\webpack\\node_modules"]}

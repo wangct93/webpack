@@ -4,13 +4,15 @@ import {addFragment, removeFragment} from "./state";
 import Loading from "../components/Loading";
 import {Modal} from 'antd';
 import {catchError, random} from "@wangct/util/lib/util";
-import {getConfig, setConfig} from './globalUtil';
+
+const globalConfig = window.globalConfig || {};
+window.globalConfig = globalConfig;
 
 /**
  * 获取全局配置
  */
 export function getGlobalConfig(key){
-  return getConfig(key);
+  return key ? globalConfig[key] : globalConfig;
 }
 
 /**
@@ -19,7 +21,7 @@ export function getGlobalConfig(key){
  * @param value
  */
 export function setGlobalConfig(key,value){
-  setConfig(key,value);
+  globalConfig[key] = value;
 }
 
 /**

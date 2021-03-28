@@ -1,0 +1,33 @@
+@import "./common";
+
+* {
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+  font-size: @fontSize;
+}
+body,
+p{
+  margin: 0;
+}
+
+
+ul{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+:global {
+  #root {
+    height: 100%;
+  }
+
+  .hide-i {
+    display: none !important;
+  }
+
+}

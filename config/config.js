@@ -21,4 +21,5 @@ module.exports = {
   },
   dynamicImport:true,
   eslint:true,
+  disableCssModules:[resolve('node_modules')]
 };

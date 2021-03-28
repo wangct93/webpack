@@ -1,8 +1,8 @@
-import {appStart, setRoutes} from "./frame";
-import routes from "./json/routes";
-appStart().then(() => {
-  setRoutes(routes);
-});
+// import {appStart, setRoutes} from "./frame";
+// import routes from "./json/routes";
+// appStart().then(() => {
+//   setRoutes(routes);
+// });
+import {Flex} from '@wangct/react-lib';
 
-
-console.log(define_isDevEnv,typeof define_isDevEnv);
+console.log(123,Flex);
