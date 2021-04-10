@@ -3,6 +3,25 @@
 // appStart().then(() => {
 //   setRoutes(routes);
 // });
-import {Flex} from '@wangct/react-lib';
+import React from "react";
+import {render} from 'react-dom';
+import {appStart, setRoutes} from "./frame";
+import {Flex} from '@wangct/react';
 
-console.log(123,Flex);
+
+
+appStart().then(() => {
+  setRoutes([
+    {
+      path:'/',
+      component:() => {
+        return <div>
+          <Flex>
+            <div>12</div>
+            <Flex.Item>123</Flex.Item>
+          </Flex>
+        </div>;
+      }
+    }
+  ])
+});

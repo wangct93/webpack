@@ -1,6 +1,6 @@
 {
   "name": "@wangct/webpack",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "react脚手架",
   "main": "index.js",
   "scripts": {
@@ -58,8 +58,9 @@
     "webpack-dev-server": "^3.7.2"
   },
   "devDependencies": {
+    "@wangct/react": "^1.0.0",
     "@wangct/react-lib": "^1.0.0",
-    "antd": "^3.20.5",
+    "antd": "^3.26.20",
     "react": "^16.13.1",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.3",

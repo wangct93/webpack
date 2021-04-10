@@ -5,8 +5,8 @@ import {Provider} from "react-redux";
 import {ConfigProvider} from "antd";
 import ZHCN from "antd/lib/locale-provider/zh_CN";
 import TabRouter from "../TabRouter";
-import {getFragmentList, getRoutes, isTabRouter, reduxConnect, setRoutes} from "../../utils/state";
-import {pathJoin} from "../../utils/path";
+import {getFragmentList, getRoutes, isTabRouter, reduxConnect} from "../../utils/state";
+import {pathJoin,pathTo} from "../../utils/path";
 import history from '../../modules/history';
 import Async from "../Async";
 
@@ -64,9 +64,10 @@ class Fragment extends PureComponent {
  * @param routes
  * @param indexPath
  * @param isTab
+ * @param rootPath
  * @returns {*}
  */
-export function getRoutesContent(routes,indexPath,isTab){
+export function getRoutesContent(routes,indexPath,isTab,rootPath = '/'){
   if(!routes){
     return;
   }
@@ -90,7 +91,7 @@ export function getRoutesContent(routes,indexPath,isTab){
         props.render = props => {
           return <RouteComponent {...props} {...extProps} {...route.props}>
             {
-              children && children.length && getRoutesContent(children.map(childRoute => ({...childRoute,path:pathJoin(routePath,childRoute.path)})),indexPath && pathJoin(routePath,indexPath),route.isTab)
+              children && children.length && getRoutesContent(children.map(childRoute => ({...childRoute,path:pathJoin(routePath,childRoute.path)})),indexPath && pathJoin(routePath,indexPath),route.isTab,routePath)
             }
           </RouteComponent>
         };
@@ -98,7 +99,12 @@ export function getRoutesContent(routes,indexPath,isTab){
       })
     }
     {
-      indexPath ? <Route render={() => history.push(indexPath)} exact key="redirectRoute" path="/" /> : ''
+      indexPath ? <Route render={() => {
+        setTimeout(() => {
+          pathTo(indexPath);
+        },0);
+        return null;
+      }} key="redirectRoute" path={rootPath} /> : ''
     }
   </Switch>;
 }

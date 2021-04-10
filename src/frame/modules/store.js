@@ -1,15 +1,20 @@
-import {createStore} from "redux";
+import {createStore as reduxCreateStore} from "redux";
 import {aryToObject, callFunc, isFunc, isPromise, objForEach, toAry, toStr} from "@wangct/util";
 import history from './history';
+import {getConfig} from "../utils/globalUtil";
 
 /**
  * 获取store对象
  * @returns {any}
  */
-export function getStore(models){
+export function createStore(models){
+  const cacheStore = getConfig('store');
+  if(cacheStore){
+    return cacheStore;
+  }
   models = toAry(models);
   const watchPropsMap = getWatchPropsMap(models);
-  const store = createStore((state,action) => {
+  const store = reduxCreateStore((state,action) => {
     const [namespace,funcField] = (action.type || '').split('/');
     const {reducers = {},effects = {}} = models.find(item => item.namespace === namespace) || {};
     const updateState = {};

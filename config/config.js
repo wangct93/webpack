@@ -21,5 +21,7 @@ module.exports = {
   },
   dynamicImport:true,
   eslint:true,
-  disableCssModules:[resolve('node_modules')]
+  // antdImport:false,
+  disableCssModules:[resolve('node_modules')],
+  // useLibLoader:false,
 };
