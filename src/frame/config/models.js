@@ -1,1 +1,1 @@
-import global_1oq6s21mw from '../../models/global.js'; export default [global_1oq6s21mw];
+import global_4izee7l88n from '../../models/global.js'; export default [global_4izee7l88n];
