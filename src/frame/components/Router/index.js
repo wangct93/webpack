@@ -5,10 +5,11 @@ import {Provider} from "react-redux";
 import {ConfigProvider} from "antd";
 import ZHCN from "antd/lib/locale-provider/zh_CN";
 import TabRouter from "../TabRouter";
-import {getFragmentList, getRoutes, isTabRouter, reduxConnect} from "../../utils/state";
-import {pathJoin,pathTo} from "../../utils/path";
+import {getFragmentList, getRoutes, isTabRouter, reduxConnect, setRoutes} from "../../utils/state";
+import {pathJoin} from "../../utils/path";
 import history from '../../modules/history';
 import Async from "../Async";
+import {pathTo} from "../../utils/path";
 
 /**
  * 路由组件
@@ -102,9 +103,8 @@ export function getRoutesContent(routes,indexPath,isTab,rootPath = '/'){
       indexPath ? <Route render={() => {
         setTimeout(() => {
           pathTo(indexPath);
-        },0);
-        return null;
-      }} key="redirectRoute" path={rootPath} /> : ''
+        },0)
+      }} exact key="redirectRoute" path={rootPath} /> : ''
     }
   </Switch>;
 }

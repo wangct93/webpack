@@ -1,1 +1,1 @@
-import global_4izee7l88n from '../../models/global.js'; export default [global_4izee7l88n];
+import global_ruzb972jc from '../../models/global.js'; export default [global_ruzb972jc];
