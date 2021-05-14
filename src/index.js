@@ -1,33 +1,5 @@
-// import {appStart, setRoutes} from "./frame";
-// import routes from "./json/routes";
-// appStart().then(() => {
-//   setRoutes(routes);
-// });
-// import React from "react";
-// import {render} from 'react-dom';
-// import {appStart, setRoutes} from "./frame";
-import {Flex} from '@wangct/react';
-let name = null;
-
-console.log({
-    ...name,
+import {appStart, setRoutes} from "./frame";
+import routes from "./json/routes";
+appStart().then(() => {
+  setRoutes(routes);
 });
-
-console.log(Flex);
-
-
-// appStart().then(() => {
-//   setRoutes([
-//     {
-//       path:'/',
-//       component:() => {
-//         return <div>
-//           <Flex>
-//             <div>12</div>
-//             <Flex.Item>123</Flex.Item>
-//           </Flex>
-//         </div>;
-//       }
-//     }
-//   ])
-// });

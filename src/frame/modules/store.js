@@ -13,10 +13,9 @@ export function createStore(models){
     return cacheStore;
   }
   models = toAry(models);
-  const watchPropsMap = getWatchPropsMap(models);
   const store = reduxCreateStore((state,action) => {
     const [namespace,funcField] = (action.type || '').split('/');
-    const {reducers = {},effects = {}} = models.find(item => item.namespace === namespace) || {};
+    const {reducers = {},effects = {},watch = {}} = models.find(item => item.namespace === namespace) || {};
     const updateState = {};
     if(!reducers.update){
       reducers.update = update;
@@ -36,10 +35,16 @@ export function createStore(models){
     }
     if(reducers[funcField]){
       const oldState = state[namespace] || {};
-      const scopeState = reducers[funcField](oldState,action) || {};
-      const watchState = getWatchState(watchPropsMap[namespace],scopeState,oldState);
+      let newState = reducers[funcField](oldState,action) || {};
+      if(!newState._replace){
+        newState = {
+          ...oldState,
+          ...newState,
+        };
+      }
+      const watchState = getWatchState(watch,oldState,newState);
       updateState[namespace] = {
-        ...scopeState,
+        ...newState,
         ...watchState,
       };
     }
@@ -175,60 +180,29 @@ function update(state,{field,data,parentField}){
 }
 
 /**
- * 获取监听属性map
- * @param models
- */
-function getWatchPropsMap(models){
-  return aryToObject(models,'namespace',((model) => {
-    const {watchs = {},watch = watchs} = model;
-    const mapData = {};
-    objForEach(watch,(value,key) => {
-      const temp = key.split(',');
-      temp.forEach((itemKey) => {
-        const ary = mapData[itemKey] || [];
-        ary.push({
-          func:value,
-          args:temp,
-        });
-        mapData[itemKey] = ary;
-      });
-    });
-    return mapData;
-  }));
-}
-
-/**
  * 获取监听的state
  */
-function getWatchState(watchProps,state,originState){
+function getWatchState(watch,oldState,newState){
   let watchState = {};
-  const tempMap = new Map();
-  objForEach(watchProps,(value,key) => {
-    if(state[key] !== originState[key]){
-      toAry(watchProps[key]).forEach((item) => {
-        callWatchFunc(item);
-      });
+  objForEach(watch,(value,key) => {
+    const keys = key.split(',');
+    const isChange = keys.some((key) => getKeyValue(oldState,key) !== getKeyValue(newState,key));
+    if(isChange){
+      const extState = value.call(newState,...keys.map((key) => getKeyValue(newState,key)));
+      watchState = {
+        ...watchState,
+        ...extState,
+      };
     }
   });
-
-  /**
-   * 调用监听函数
-   * @param data
-   */
-  function callWatchFunc(data){
-    if(tempMap.get(data.func)){
-      return;
-    }
-    tempMap.set(data.func,true);
-    const args = toAry(data.args).map((name) => {
-      return state[name];
-    });
-    const funcState = data.func(...args,state);
-    watchState = {
-      ...watchState,
-      ...funcState,
-    };
-  }
-
   return watchState;
+}
+
+function getKeyValue(data,key){
+  const keyTemp = key.split('.');
+  let value = data;
+  keyTemp.forEach((field) => {
+    value = value && value[field];
+  });
+  return value;
 }

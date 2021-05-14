@@ -3,12 +3,22 @@ import {Carousel, Input, Icon, Rate, Button,Modal} from 'antd';
 
 import css from './index.less';
 import {random} from "@wangct/util/lib/util";
-import {pathTo, updateModel} from "../../frame";
+import {pathTo, reduxConnect, updateModel} from "../../frame";
 
+@reduxConnect(({global}) => {
+  console.log(global);
+  return {};
+})
 export default class Home extends PureComponent {
 
   doTest = () => {
-    pathTo('/2333')
+    updateModel('global',{
+      ww:random(),
+      name:random(),
+      data:{
+        name:'nae' + random(),
+      },
+    });
   }
 
   render() {

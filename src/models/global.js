@@ -2,24 +2,28 @@
 export default {
   namespace: 'global',
   state: {
+    data:{},
   },
 
   effects: {
   },
 
-  watchs:{
-    name:(name,state) => {
-      console.log(name,state);
+  watch:{
+    name:(name) => {
+      console.log(name);
       return {
         ww:'wangct',
       }
     },
-    'name,ww':(name,ww,state) => {
-      console.log(name,ww,state);
+    'name,ww'(name,ww){
+      console.log(name,ww,this);
       return {
-        ww:'wangct1',
+        fullName:name + '_' + ww,
       }
     },
+    'data.name'(name){
+      console.log(name);
+    }
   },
 
   reducers: {
