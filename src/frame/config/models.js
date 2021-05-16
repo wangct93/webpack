@@ -1,1 +1,1 @@
-import global_7g8e6ece from '../../models/global.js'; export default [global_7g8e6ece];
+import global_1203mt74i7y from '../../models/global.js'; export default [global_1203mt74i7y];
