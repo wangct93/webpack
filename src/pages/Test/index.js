@@ -1,4 +1,4 @@
-import React, {PureComponent, useCallback, useEffect, useState} from 'react';
+import React, {PureComponent, useCallback, useEffect, useRef, useState} from 'react';
 import {Carousel, Input, Icon, Rate, Button,Modal} from 'antd';
 
 import css from './index.less';
@@ -7,35 +7,27 @@ import {getStore, pathTo, reduxConnect, updateModel} from "../../frame";
 import {useSelector} from "react-redux";
 import {isFunc} from "@wangct/util/lib/typeUtil";
 import {equal} from '@wangct/util';
-import {useRedux} from "../../../lib/template/frame/utils/hook";
+import useMouseWheel from "../../../lib/template/frame/utils/hooks/useMouseWheel";
+import useRedux from "../../../lib/template/frame/utils/hooks/useRedux";
+import useWindowSize from "../../../lib/template/frame/utils/hooks/useWindowSize";
+import useHover from "../../../lib/template/frame/utils/hooks/useHover";
+import useElem from "../../../lib/template/frame/utils/hooks/useElem";
+import usePrevState from "../../../lib/template/frame/utils/hooks/usePrevState";
+import useMouse from "../../../lib/template/frame/utils/hooks/useMouse";
+import useHash from "../../../lib/template/frame/utils/hooks/useHash";
 
-@reduxConnect(({global}) => {
-  console.log(global);
-  return {};
-})
-export default class Home extends PureComponent {
 
-  doTest = () => {
-    updateModel('global',{
-      ww:random(),
-      name:random(),
-      data:{
-        name:'nae' + random(),
-      },
-    });
-  }
-
-  render() {
-    console.log(this.props);
-    return <div className={css.container} onClick={this.doTest}>
-      <A />
-      测试页面hello world！d2131
-    </div>
-  }
-}
-
-function A(){
+export default function Test(){
   const a = useRedux((state) => state.global.name);
-  console.log(a);
-  return <div>123</div>;
+  const scale = useMouseWheel();
+  const [b,setB] = useState();
+  const [elem,setRef] = useElem();
+  // console.log(useWindowSize());
+  // console.log(useHover(elem));
+  // console.log('上次记录',usePrevState(useHover(elem)));
+  // console.log(scale);
+  console.log(useMouse());
+  console.log(useMouse(elem));
+  console.log(useHash());
+  return <div onClick={setB} ref={setRef}>123</div>;
 }
