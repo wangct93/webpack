@@ -1,1 +1,1 @@
-import global_5dj155mpl8 from '../../models/global.js'; export default [global_5dj155mpl8];
+import global_cn927chrj from '../../models/global.js'; export default [global_cn927chrj];

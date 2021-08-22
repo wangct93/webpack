@@ -1,22 +1,27 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import useMount from "./useMount";
+import {getThrottleFunc} from "@wangct/util/lib/util";
 
-export default function useMouse(){
+export default function useMouse(elem = document){
 
-  const [pos,setPos] = useState({});
+  const [pos,setPos] = useState({
+    x:0,
+    y:0,
+  });
 
-  useMount(() => {
-    function move(e){
+  useEffect(() => {
+    const move = getThrottleFunc((e) => {
       setPos({
         x:e.clientX,
         y:e.clientY,
       });
-    }
-    document.addEventListener('mousemove',move);
+    });
+    console.log(elem);
+    elem.addEventListener('mousemove',move);
     return () => {
-      document.removeEventListener('mousemove',move);
+      elem.removeEventListener('mousemove',move);
     }
-  });
+  },[elem]);
 
   return pos;
 }

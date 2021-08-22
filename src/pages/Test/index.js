@@ -15,6 +15,7 @@ import useElem from "../../../lib/template/frame/utils/hooks/useElem";
 import usePrevState from "../../../lib/template/frame/utils/hooks/usePrevState";
 import useMouse from "../../../lib/template/frame/utils/hooks/useMouse";
 import useHash from "../../../lib/template/frame/utils/hooks/useHash";
+import B, {FieldsA} from "./B";
 
 
 export default function Test(){
@@ -29,5 +30,6 @@ export default function Test(){
   console.log(useMouse());
   console.log(useMouse(elem));
   console.log(useHash());
-  return <div onClick={setB} ref={setRef}>123</div>;
+  console.log(FieldsA);
+  return <div onClick={setB} ref={setRef}>123<B /></div>;
 }

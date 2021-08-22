@@ -15,6 +15,7 @@ export * from './utils/state';
 export * from './utils/alert';
 export * from './utils/domUtil';
 export * from './utils/hooks';
+export * from './utils/modalUtil';
 
 /**
  * 渲染方法
